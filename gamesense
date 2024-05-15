@@ -1229,6 +1229,8 @@ do
         --
         function window:Watermark(info)
             window.watermark = {visible = true}
+            local lastUpdate = tick()  
+            local library = {}
             --
             local info = info or {}
             local watermark_name = info.name or info.Name or info.title or info.Title or window.wminfo
@@ -1335,25 +1337,15 @@ do
                 local currentTime = tick()
                 if (currentTime - lastUpdate) > 0.5 then  -- Adjust the interval as needed
                     lastUpdate = currentTime
-                
-                    -- Calculate FPS
-                    local deltaTime = currentTime - lastFrameTime
-                    lastFrameTime = currentTime
-                    library.shared.fps = math.floor(1 / deltaTime)
-                    
-                    -- Update Ping
+        
+                    library.shared.fps = math.floor(1 / math.abs(temp - tick()))
                     library.shared.ping = stats.Network:FindFirstChild("ServerStatsItem") and tostring(math.round(stats.Network.ServerStatsItem["Data Ping"]:GetValue())) or "Unknown"
-                    
-                    task.spawn(function()
-                        if (tick() - Tick) > 0.15 then
-                            watermark_title.Text = window.wminfo:gsub("$PING", library.shared.ping):gsub("$FPS", library.shared.fps) .. " | Time: " .. os.date("%H:%M:%S")
-                            window.watermark:UpdateSize()
-                            Tick = tick()
-                        end
-                    end)
+        
+                    watermark_title.Text = window.wminfo:gsub("$PING", library.shared.ping):gsub("$FPS", library.shared.fps) .. " | Time: " .. os.date("%H:%M:%S")
+                    window.watermark:UpdateSize()
                 end
-            end)                   
-            --
+            end)
+        
             return window.watermark
         end        
         --
