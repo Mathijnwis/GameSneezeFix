@@ -932,7 +932,7 @@ do
         --
         
         
-        local window = {pages = {}, loader = style == 2, init = false, pageammount = pageammount, isVisible = false, callback = callback, uibind = Enum.KeyCode.Insert, wminfo = "技能问题软件 | Fps : 60 ", currentPage = nil, fading = false, dragging = false, drag = Vector2.new(0,0), currentContent = {frame = nil, dropdown = nil, multibox = nil, colorpicker = nil, keybind = nil, textbox = nil}}
+        local window = {pages = {}, loader = style == 2, init = false, pageammount = pageammount, isVisible = false, callback = callback, uibind = Enum.KeyCode.Insert, wminfo = "技能问题软件 | id: 1", currentPage = nil, fading = false, dragging = false, drag = Vector2.new(0,0), currentContent = {frame = nil, dropdown = nil, multibox = nil, colorpicker = nil, keybind = nil, textbox = nil}}
         --
         local main_frame = utility:Create("Frame", {Vector2.new(0,0)}, {
             Size = utility:Size(0, size.X, 0, size.Y),
@@ -1331,20 +1331,24 @@ do
             local temp = tick()
             local Tick = tick()
             --
-            utility:Connection(rs.RenderStepped, function()
+            utility:Connection(rs.RenderStepped, function(FPS)
                 local currentTime = tick()
-                if (currentTime - lastUpdate) > 1 then  -- Adjust the interval as needed
+                if (currentTime - lastUpdate) > 0.5 then  -- Adjust the interval as needed
                     lastUpdate = currentTime
             
+                    library.shared.fps = math.floor(1 / math.abs(temp - tick()))
+                    temp = tick()
+                    library.shared.ping = stats.Network:FindFirstChild("ServerStatsItem") and tostring(math.round(stats.Network.ServerStatsItem["Data Ping"]:GetValue())) or "Unknown"
+                    
                     task.spawn(function()
                         if (tick() - Tick) > 0.15 then
-                            watermark_title.Text = window.wminfo .. " | Time: " .. os.date("%H:%M:%S")
+                            watermark_title.Text = window.wminfo:gsub("$PING", library.shared.ping):gsub("$FPS", library.shared.fps) .. " | Time: " .. os.date("%H:%M:%S")
                             window.watermark:UpdateSize()
                             Tick = tick()
                         end
                     end)
                 end
-            end)                   
+            end)            
             --
             return window.watermark
         end        
