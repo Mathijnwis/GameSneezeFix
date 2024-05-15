@@ -3279,12 +3279,13 @@ do
             Color = toggle.current == true and "accent" or "lightcontrast"
         }
         --
-        local toggle__gradient = utility:Create("Image", {Vector2.new(0,0), toggle_frame}, {
+        local toggle__gradient = utility:Create("Image", {Vector2.new(0, 0), toggle_frame}, {
             Size = utility:Size(1, 0, 1, 0, toggle_frame),
-            Position = utility:Position(0, 0, 0 , 0, toggle_frame),
+            Position = utility:Position(0, 0, 0, 0, toggle_frame),
             Transparency = 0.5,
-            Visible = page.open
-        }, section.visibleContent)        
+            Visible = page.open,
+            Image = "gradient" -- Assign the loaded image to the image element
+        }, section.visibleContent)         
         --
         local toggle_title = utility:Create("TextLabel", {Vector2.new(23,toggle.axis + (15/2) - (utility:GetTextBounds(name, theme.textsize, theme.font).Y/2)), section.section_frame}, {
             Text = name,
@@ -3301,7 +3302,7 @@ do
             Color = "textcolor"
         }
         --
-        utility:LoadImage(toggle__gradient, "gradient", "https://i.imgur.com/5bVG8IM.png")
+        utility:LoadImage("gradient", "https://i.imgur.com/5bVG8IM.png")
         --
         function toggle:Get()
             return toggle.current
