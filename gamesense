@@ -3284,7 +3284,7 @@ do
             Position = utility:Position(0, 0, 0 , 0, toggle_frame),
             Transparency = 0.5,
             Visible = page.open
-        }, section.visibleContent)
+        }, section.visibleContent)        
         --
         local toggle_title = utility:Create("TextLabel", {Vector2.new(23,toggle.axis + (15/2) - (utility:GetTextBounds(name, theme.textsize, theme.font).Y/2)), section.section_frame}, {
             Text = name,
