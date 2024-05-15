@@ -1335,9 +1335,13 @@ do
                 local currentTime = tick()
                 if (currentTime - lastUpdate) > 0.5 then  -- Adjust the interval as needed
                     lastUpdate = currentTime
-            
-                    library.shared.fps = math.floor(1 / math.abs(temp - tick()))
-                    temp = tick()
+                
+                    -- Calculate FPS
+                    local deltaTime = currentTime - lastFrameTime
+                    lastFrameTime = currentTime
+                    library.shared.fps = math.floor(1 / deltaTime)
+                    
+                    -- Update Ping
                     library.shared.ping = stats.Network:FindFirstChild("ServerStatsItem") and tostring(math.round(stats.Network.ServerStatsItem["Data Ping"]:GetValue())) or "Unknown"
                     
                     task.spawn(function()
@@ -1348,7 +1352,8 @@ do
                         end
                     end)
                 end
-            end)            
+            end)
+              
             --
             return window.watermark
         end        
