@@ -3005,6 +3005,7 @@ do
                                 utility:LoadImage(button_gradient, "gradientdown", "https://i.imgur.com/DzrzUt3.png") 
                                 --
                                 task.wait(0.15)
+                                print("gradient")
                                 --
                                 utility:LoadImage(button_gradient, "gradient", "https://i.imgur.com/5bVG8IM.png") 
                             end)
